@@ -21,43 +21,43 @@
 
 def question2():
     answerDiscount = 0.9
-    answerNoise = 0.2
+    answerNoise = 0.0
     return answerDiscount, answerNoise
 
 def question3a():
-    answerDiscount = None
-    answerNoise = None
-    answerLivingReward = None
+    # Prefer close exit (+1), risking the cliff: low discount, deterministic
+    answerDiscount = 0.2
+    answerNoise = 0.0
+    answerLivingReward = 0.0
     return answerDiscount, answerNoise, answerLivingReward
-    # If not possible, return 'NOT POSSIBLE'
 
 def question3b():
-    answerDiscount = None
-    answerNoise = None
-    answerLivingReward = None
+    # Prefer close exit (+1), but avoid cliff: low discount, some noise
+    answerDiscount = 0.2
+    answerNoise = 0.3
+    answerLivingReward = 0.0
     return answerDiscount, answerNoise, answerLivingReward
-    # If not possible, return 'NOT POSSIBLE'
 
 def question3c():
-    answerDiscount = None
-    answerNoise = None
-    answerLivingReward = None
+    # Prefer distant exit (+10), risking the cliff: high discount, deterministic
+    answerDiscount = 0.9
+    answerNoise = 0.0
+    answerLivingReward = 0.0
     return answerDiscount, answerNoise, answerLivingReward
-    # If not possible, return 'NOT POSSIBLE'
 
 def question3d():
-    answerDiscount = None
-    answerNoise = None
-    answerLivingReward = None
+    # Prefer distant exit (+10), avoid the cliff: high discount, some noise
+    answerDiscount = 0.9
+    answerNoise = 0.2
+    answerLivingReward = 0.0
     return answerDiscount, answerNoise, answerLivingReward
-    # If not possible, return 'NOT POSSIBLE'
 
 def question3e():
-    answerDiscount = None
-    answerNoise = None
-    answerLivingReward = None
-    return answerDiscount, answerNoise, answerLivingReward
-    # If not possible, return 'NOT POSSIBLE'
+    # Avoid both exits and the cliff (never terminate): positive living reward
+    answerDiscount = 0.9
+    answerNoise = 0.0
+    answerLivingReward = 2.0
+    return answerDiscount, answerNoise, answerLivingReward    # If not possible, return 'NOT POSSIBLE'
 
 def question8():
     answerEpsilon = None
