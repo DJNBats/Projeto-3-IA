@@ -44,7 +44,10 @@ class QLearningAgent(ReinforcementAgent):
 
         "*** YOUR CODE HERE ***"
         # qValores guarda Q(s,a); util.Counter devolve 0 para chaves não vistas
-        self.qValores = util.Counter() # default 0.0
+        self.qValores = util.Counter()
+        # mantemos o nome em português (self.qValores) e também definimos self.qValues
+        # apontando para o mesmo Counter para compatibilidade.
+        self.qValues = self.qValores  # <-- alias: compatibilidade com nome original
 
     def getQValue(self, state, action):
         """
@@ -67,7 +70,7 @@ class QLearningAgent(ReinforcementAgent):
         "*** YOUR CODE HERE ***"
         acoesLegais = self.getLegalActions(state)  # usa a função de ações definida em ReinforcementAgent
         if not acoesLegais:
-            # estado terminal -> sem recompensa futura
+            # estado terminal ≥ sem recompensa futura
             return 0.0
         # retorna o máximo Q entre ações legais
         return max(self.getQValue(state, a) for a in acoesLegais)
@@ -208,7 +211,7 @@ class ApproximateQAgent(PacmanQAgent):
         q = 0.0
         # produto escalar entre pesos e features
         for f, val in features.items():
-            q += self.pesos[f] * val
+            q += self.weights[f] * val
         return q
         ###util.raiseNotDefined()
 
@@ -226,13 +229,10 @@ class ApproximateQAgent(PacmanQAgent):
         correcao = (reward + self.discount * valorSeguinte) - self.getQValue(state, action)
         # atualiza cada peso proporcional ao valor da feature
         for f, val in features.items():
-            self.pesos[f] += self.alpha * correcao * val
+            self.weights[f] += self.alpha * correcao * val
 
     def final(self, state):
-        "Called at the end of each game."
-        # call the super-class final method
-        PacmanQAgent.final(self, state)
-
+        """Called at the end of each game."""
         # did we finish training?
         # chamado no fim de cada jogo; executa final da classe pai
         PacmanQAgent.final(self, state)
@@ -241,4 +241,12 @@ class ApproximateQAgent(PacmanQAgent):
         if self.episodesSoFar == self.numTraining:
             # you might want to print your weights here for debugging
             "*** YOUR CODE HERE ***"
+              # dicionário de pesos (feature -> peso)
+            self.weights = util.Counter() # alias que aponta para o mesmo Counter
+            # imprime apenas pesos não nulos/significativos para facilitar leitura
+            print("Pesos finais aprendidos (feature: peso):")
+            for feature, weight in self.weights.items():
+                if abs(weight) > 1e-6:
+                    print("  {}: {:.6f}".format(feature, weight))
+
             pass
